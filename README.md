@@ -1,6 +1,6 @@
 # Compiler
 
-[![Build Status](https://travis-ci.com/vla5924/compiler.svg?branch=main)](https://travis-ci.com/vla5924/compiler)
+![Build](https://github.com/vla5924/compiler/workflows/Build/badge.svg)
 
 Translates simplified Pascal code into Abstract Syntax Tree serialization and executes it via interpreter.
 
