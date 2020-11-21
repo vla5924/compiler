@@ -46,3 +46,15 @@ jobs:
       env:
         CC: clang-10
         CXX: clang++-10
+  
+  windows-msvc-build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      shell: cmd
+      run: |
+        mkdir build
+        cd build
+        cmake -G "Visual Studio 16 2019" .. -A Win32
+        cmake --build . --config $BUILD_TYPE
