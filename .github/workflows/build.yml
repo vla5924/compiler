@@ -8,10 +8,13 @@ env:
 jobs:
   ubuntu-gcc-build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-      
+    - name: Setup environment
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt-get install g++-9
     - name: Build
       shell: bash
       run: |
@@ -19,3 +22,27 @@ jobs:
         cd build
         cmake ..
         cmake --build . --config $BUILD_TYPE
+      env:
+        CC: gcc-9
+        CXX: g++-9
+
+  ubuntu-clang-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup environment
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt-get install clang-10
+    - name: Build
+      shell: bash
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --config $BUILD_TYPE
+      env:
+        CC: clang-10
+        CXX: clang++-10
