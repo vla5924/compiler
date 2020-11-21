@@ -35,7 +35,7 @@ std::map<std::string_view, Token::Operator> Lexer::operators = {
     { ")", Token::Operator::RightBrace },
 };
 
-std::list<Token> Lexer::process(std::string_view source)
+std::list<Token> Lexer::process(const StringVec& source)
 {
     std::list<Token> tokens;
     // TODO

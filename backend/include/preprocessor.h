@@ -1,14 +1,13 @@
 #pragma once
 
-#include <string>
-#include <string_view>
+#include "stringvec.h"
 
 class Preprocessor
 {
-    static std::string removeComments(std::string_view source);
+    static StringVec removeComments(const StringVec& source);
 public:
     Preprocessor() = delete;
     Preprocessor(const Preprocessor&) = delete;
 
-    static std::string process(std::string_view source);
+    static StringVec process(const StringVec& source);
 };
