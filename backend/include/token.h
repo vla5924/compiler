@@ -53,15 +53,23 @@ struct Token
     };
     Type type;
 
-    std::variant<Keyword, std::string, Operator, std::string> kwValue, idValue, opValue, literalValue;
+    std::variant<Keyword, Operator, std::string> kwValue, opValue, strValue;
     
+    /*Token() = default;
+    Token(const Token&) = default;
+    Token(Token&&) = default;
+    ~Token() = default;*/
+
     Keyword& kw() { return std::get<0>(kwValue); }
-    std::string& id() { return std::get<1>(idValue); }
-    Operator& op() { return std::get<2>(opValue); }
-    std::string& literal() { return std::get<3>(literalValue); }
+    std::string& id() { return std::get<2>(strValue); }
+    Operator& op() { return std::get<1>(opValue); }
+    std::string& literal() { return std::get<2>(strValue); }
 
     const Keyword& kw() const { return std::get<0>(kwValue); }
-    const std::string& id() const { return std::get<1>(idValue); }
-    const Operator& op() const { return std::get<2>(opValue); }
-    const std::string& literal() const { return std::get<3>(literalValue); }
+    const std::string& id() const { return std::get<2>(strValue); }
+    const Operator& op() const { return std::get<1>(opValue); }
+    const std::string& literal() const { return std::get<2>(strValue); }
+
+    template<Type TokenType, typename ValueType>
+    static Token make(const ValueType& value) { return Token{ TokenType, value }; }
 };
