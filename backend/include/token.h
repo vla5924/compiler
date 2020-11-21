@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <variant>
 
 struct Token
 {
@@ -52,11 +53,15 @@ struct Token
     };
     Type type;
 
-    union Value
-    {
-        Keyword kwValue;
-        std::string idValue;
-        Operator opValue;
-        std::string literalValue;
-    };
+    std::variant<Keyword, std::string, Operator, std::string> kwValue, idValue, opValue, literalValue;
+    
+    Keyword& kw() { return std::get<0>(kwValue); }
+    std::string& id() { return std::get<1>(idValue); }
+    Operator& op() { return std::get<2>(opValue); }
+    std::string& literal() { return std::get<3>(literalValue); }
+
+    const Keyword& kw() const { return std::get<0>(kwValue); }
+    const std::string& id() const { return std::get<1>(idValue); }
+    const Operator& op() const { return std::get<2>(opValue); }
+    const std::string& literal() const { return std::get<3>(literalValue); }
 };
