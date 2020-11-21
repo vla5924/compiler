@@ -57,8 +57,6 @@ struct Token
         Keyword kwValue;
         std::string idValue;
         Operator opValue;
-        long intValue;
-        double fpValue;
-        std::string strValue;
+        std::string literalValue;
     };
 };
