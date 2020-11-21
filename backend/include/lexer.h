@@ -10,8 +10,13 @@
 
 class Lexer
 {
+    using Type = Token::Type;
+    using Keyword = Token::Keyword;
+    using Operator = Token::Operator;
+
     static std::map<std::string_view, Token::Keyword> keywords;
     static std::map<std::string_view, Token::Operator> operators;
+
 public:
     Lexer() = delete;
     Lexer(const Lexer&) = delete;
