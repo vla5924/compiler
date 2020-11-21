@@ -39,5 +39,6 @@ std::list<Token> Lexer::process(const StringVec& source)
 {
     std::list<Token> tokens;
     // TODO
+    // tokens.push_back({Type::Identifier, "hello"});
     return tokens;
 }
