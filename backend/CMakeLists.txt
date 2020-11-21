@@ -11,5 +11,6 @@ set(BACKEND_SOURCE_FILES
     backend/src/lexer.cpp
     backend/src/parser.cpp
     backend/src/preprocessor.cpp
+    backend/src/stringvec.cpp
     PARENT_SCOPE
 )
