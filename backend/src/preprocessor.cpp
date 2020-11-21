@@ -1,22 +1,23 @@
 #include "preprocessor.h"
 
-std::string Preprocessor::removeComments(std::string_view source)
+StringVec Preprocessor::removeComments(const StringVec& source)
 {
-    std::string result;
-    char prev = 0;
-    bool inComment = false;
-    bool inStringLiteral = false;
-    bool skip;
-    for (char sym : source)
+    StringVec result;
+    for (auto& str : source)
     {
-        skip = false;
-        // If we are inside the comment entity
-        // then we can ignore any symbol until line ends
-        if (!inComment)
+        std::string resultStr;
+        char prev = 0;
+        bool inComment = false;
+        bool inStringLiteral = false;
+        bool skip;
+        for (char sym : str)
         {
-            // If symbol is quote and it is not escaped
+            skip = false;
+            // If we are inside the comment entity
+            // then we can ignore any symbol until line ends
+            // If symbol is quote
             // this means we are entering or leaving string literal
-            if (sym == '\'' && prev != '\\')
+            if (sym == '\'')
                 inStringLiteral = !inStringLiteral;
             // If we are not inside string literal
             // then we can check if there is '//' sequence
@@ -24,24 +25,20 @@ std::string Preprocessor::removeComments(std::string_view source)
             {
                 if (sym == '/' && prev == '/')
                 {
-                    inComment = true;
-                    result.pop_back();
-                    skip = true;
+                    resultStr.pop_back();
+                    break;
                 }
             }
+            resultStr.push_back(sym);
+            prev = sym;
         }
-        else if (sym == '\n')
-            inComment = false;
-        else
-            skip = true;
-        if (!skip)
-            result.push_back(sym);
-        prev = sym;
+        if (!resultStr.empty())
+            result.push_back(std::move(resultStr));
     }
     return result;
 }
 
-std::string Preprocessor::process(std::string_view source)
+StringVec Preprocessor::process(const StringVec& source)
 {
     return removeComments(source);
 }
