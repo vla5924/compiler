@@ -24,4 +24,5 @@ public:
     ~Lexer() = delete;
 
     static std::list<Token> process(const StringVec& source);
+    static void strProcess(std::string str, std::list<Token>& tok_list);
 };

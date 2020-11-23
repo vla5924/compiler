@@ -53,7 +53,7 @@ struct Token
     };
     Type type;
 
-    std::variant<Keyword, Operator, std::string> kwValue, opValue, strValue;
+    std::variant<Keyword, Operator, std::string> kwValue, opValue, strValue; //idValue???
     
     /*Token() = default;
     Token(const Token&) = default;

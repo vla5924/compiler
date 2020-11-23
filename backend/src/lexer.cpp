@@ -42,3 +42,33 @@ std::list<Token> Lexer::process(const StringVec& source)
     // tokens.push_back({Type::Identifier, "hello"});
     return tokens;
 }
+
+void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
+{
+    std::string id_str;
+    static int last_symb = ' ';
+    while (isspace(last_symb))
+    last_symb = getchar();
+
+    if (isalpha(last_symb))
+    {
+        id_str = last_symb;
+        while (isalnum((last_symb = getchar())))
+        id_str += last_symb;
+    }
+    if (Lexer::keywords.find(id_str) != map.end())
+    {
+        tok_list.push_back({Type::Keyword, id_str});
+    } else tok_list.push_back({Type::Identifier, id_str});
+    
+    if (isdigit(last_symb) || last_symb == '.') {
+    std::string num_str;
+    do {
+      num_str += last_symb;
+      last_symb = getchar();
+    } while (isdigit(last_symb) || last_symb == '.');
+
+    static double value = strtod(num_str.c_str(), 0);
+    // che-to sdelal, nado c 56 strokoi token.h eto svyazat'
+    // plus operators, plus string, plus integer, plus floating point
+}
