@@ -81,11 +81,11 @@ TokenList Lexer::processString(const std::string& str)
             }
 
             id_str += *i;
-            /*if (*i == 222) // ASCII ' = ?
+            if (*i == 39) // ASCII ' = 39? 
             {
                 id_str.clear();
                 i++;
-                while (*i != 222) // TODO need '' check
+                while (*i != 39) // TODO need '' check
                 {
                     id_str += *i;
                     i++;
@@ -94,7 +94,7 @@ TokenList Lexer::processString(const std::string& str)
                 tokens.push_back(Token::make<Token::Type::StringLiteral>(id_str));
                 id_str.clear();
                 continue;
-            }*/
+            }
 
             if (isalnum(id_str[0])) // pushing Integer number
             {
