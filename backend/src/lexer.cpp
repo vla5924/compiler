@@ -38,37 +38,62 @@ std::map<std::string_view, Token::Operator> Lexer::operators = {
 std::list<Token> Lexer::process(const StringVec& source)
 {
     std::list<Token> tokens;
-    // TODO
-    // tokens.push_back({Type::Identifier, "hello"});
+
+    for (auto i = source.cbegin(); i != source.cend(); ++i)
+    {
+        strProcess(*i, tokens);
+    }
     return tokens;
 }
 
 void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
 {
     std::string id_str;
-    static int last_symb = ' ';
-    while (isspace(last_symb))
-    last_symb = getchar();
-
-    if (isalpha(last_symb))
+    int i = 0;
+    for (auto i = str.begin(); i != str.end(); ++i) 
     {
-        id_str = last_symb;
-        while (isalnum((last_symb = getchar())))
-        id_str += last_symb;
-    }
-    if (Lexer::keywords.find(id_str) != Lexer::keywords.end())
-    {
-        tok_list.push_back({Type::Keyword, id_str});
-    } else tok_list.push_back({Type::Identifier, id_str});
+        if (isspace(*i) && id_str.size() == 0) // skipping spaces at the beginning of a line
+        {
+            continue;
+        }
 
-    if (isdigit(last_symb) || last_symb == '.') {
-        std::string num_str;
-        do {
-        num_str += last_symb;
-        last_symb = getchar();
-        } while (isdigit(last_symb) || last_symb == '.');
-        static double value = strtod(num_str.c_str(), 0);
+        if (isalpha(*i)) // adding letters or numbers to the id_str
+        {
+            id_str += *i;
+        } else
+        {
+            if (id_str.size() != 0) // pushing Keyword
+            {
+                auto tok_id = Lexer::keywords.find(id_str);
+                if (tok_id != Lexer::keywords.end())
+                    tok_list.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
+                id_str.clear();
+            }
+            
+            if (isspace(*i))
+            {
+                continue;
+            }
+            id_str += *i; 
+            if (((*i == ':') || (*i == '<') || (*i == '>')) && (*(i + 1) == '=')) // pushing Operators
+            {
+                id_str += *(i + 1);
+                i++;
+            }
+            auto tok_id = Lexer::operators.find(id_str);
+            if (tok_id != Lexer::operators.end())
+                    tok_list.push_back(Token::make<Token::Type::Operator>(tok_id->second));
+            id_str.clear();
+        } 
     }
-    // che-to sdelal, nado c 56 strokoi token.h eto svyazat'
-    // plus operators, plus string, plus integer, plus floating point
+    if (id_str.size() != 0) // adding a word at the end of a line
+    {
+        auto tok_id = Lexer::keywords.find(id_str);
+        auto tok_src = Lexer::operators.find(id_str);
+         if (tok_id != Lexer::keywords.end())
+            tok_list.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
+        else if(tok_src != Lexer::operators.end())
+                tok_list.push_back(Token::make<Token::Type::Operator>(tok_src->second));
+    }
+    
 }
