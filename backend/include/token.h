@@ -27,6 +27,7 @@ struct Token
         Colon,
         Semicolon,
         Stop,
+        Comma,
         Assign,
         Plus,
         Minus,

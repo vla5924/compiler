@@ -20,7 +20,7 @@ std::map<std::string_view, Token::Operator> Lexer::operators = {
     { ":", Token::Operator::Colon },
     { ";", Token::Operator::Semicolon },
     { ".", Token::Operator::Stop },
-    { ",", Token::Operator::Stop },
+    { ",", Token::Operator::Comma },
     { ":=", Token::Operator::Assign },
     { "+", Token::Operator::Plus },
     { "-", Token::Operator::Minus },
