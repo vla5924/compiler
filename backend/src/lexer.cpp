@@ -17,23 +17,24 @@ std::map<std::string_view, Token::Keyword> Lexer::keywords = {
 };
 
 std::map<std::string_view, Token::Operator> Lexer::operators = {
-    { ":", Token::Operator::Colon },
-    { ";", Token::Operator::Semicolon },
-    { ".", Token::Operator::Stop },
-    { ",", Token::Operator::Comma },
+    { ":",  Token::Operator::Colon },
+    { ";",  Token::Operator::Semicolon },
+    { ".",  Token::Operator::Stop },
+    { ",",  Token::Operator::Comma },
+    { "`",  Token::Operator::Apostrophe},
     { ":=", Token::Operator::Assign },
-    { "+", Token::Operator::Plus },
-    { "-", Token::Operator::Minus },
-    { "*", Token::Operator::Mult },
-    { "/", Token::Operator::Div },
-    { "=", Token::Operator::Equal },
+    { "+",  Token::Operator::Plus },
+    { "-",  Token::Operator::Minus },
+    { "*",  Token::Operator::Mult },
+    { "/",  Token::Operator::Div },
+    { "=",  Token::Operator::Equal },
     { "<>", Token::Operator::NotEqual },
-    { "<", Token::Operator::Less },
-    { ">", Token::Operator::More },
+    { "<",  Token::Operator::Less },
+    { ">",  Token::Operator::More },
     { "<=", Token::Operator::LessEqual },
     { ">=", Token::Operator::MoreEqual },
-    { "(", Token::Operator::LeftBrace },
-    { ")", Token::Operator::RightBrace },
+    { "(",  Token::Operator::LeftBrace },
+    { ")",  Token::Operator::RightBrace },
 };
 
 TokenList Lexer::process(const StringVec& source)
@@ -82,10 +83,26 @@ TokenList Lexer::processString(const std::string& str)
             id_str += *i; 
             if (isalnum(id_str[0])) // pushing Integer number
             {
-                while(isalnum(*(i + 1))) {
+                while(isalnum(*(i + 1))) 
+                {
                     id_str += *(i + 1);
                     i++;
                 }
+                
+                if (*(i + 1) == '.')
+                {
+                    id_str += *(i + 1);
+                    i++;
+                    while(isalnum(*(i + 1))) 
+                    {
+                        id_str += *(i + 1);
+                        i++;
+                    }
+                    tokens.push_back(Token::make<Token::Type::FloatingPointLiteral>(id_str));
+                    id_str.clear();
+                    continue;
+                }
+                
                 tokens.push_back(Token::make<Token::Type::IntegerLiteral>(id_str));
                 id_str.clear();
                 continue;

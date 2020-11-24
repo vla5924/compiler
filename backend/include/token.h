@@ -28,6 +28,7 @@ struct Token
         Semicolon,
         Stop,
         Comma,
+        Apostrophe,
         Assign,
         Plus,
         Minus,

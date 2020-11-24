@@ -3,12 +3,14 @@
 int Compiler::exec(int argc, char* argv[])
 {
     std::cout << "Compiler launched.\n";
+    std::cout << std::endl;
     // source = readFile(pathtofile...);
     StringVec source = {
         "var i, j, k: integer;",
         "begin",
         "   i:=j + k;",
         "   i:=i + 123;",
+        "   i:= 123.123;",
         "end." 
     };
     source = Preprocessor::process(source);

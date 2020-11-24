@@ -20,6 +20,10 @@ std::ostream& operator<<(std::ostream& out, const TokenList& list)
         {
             out << "INTEGER" << std::endl;
         }
+        else if (token.type == Token::Type::FloatingPointLiteral)
+        {
+            out << "FLOAT" << std::endl;
+        }
     }
     return out;
 }
