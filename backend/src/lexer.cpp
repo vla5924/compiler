@@ -49,7 +49,7 @@ TokenList Lexer::process(const StringVec& source)
 
 TokenList Lexer::processString(const std::string& str)
 {
-    // TODO teach him to recognize identifiers with numbers, stringLiterals
+    // TODO teach him to recognize identifiers with numbers
     std::list<Token> tokens;
     std::string id_str;
     int i = 0;
@@ -89,7 +89,6 @@ TokenList Lexer::processString(const std::string& str)
                     id_str += *i;
                     i++;
                 }
-                std::cout << id_str << std::endl;
                 tokens.push_back(Token::make<Token::Type::StringLiteral>(id_str));
                 id_str.clear();
                 continue;
@@ -103,7 +102,7 @@ TokenList Lexer::processString(const std::string& str)
                     i++;
                 }
 
-                if (*(i + 1) == '.')
+                if (*(i + 1) == '.') // pushing Float number
                 {
                     id_str += *(i + 1);
                     i++;
