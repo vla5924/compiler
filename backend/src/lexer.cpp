@@ -20,6 +20,7 @@ std::map<std::string_view, Token::Operator> Lexer::operators = {
     { ":", Token::Operator::Colon },
     { ";", Token::Operator::Semicolon },
     { ".", Token::Operator::Stop },
+    { ",", Token::Operator::Stop },
     { ":=", Token::Operator::Assign },
     { "+", Token::Operator::Plus },
     { "-", Token::Operator::Minus },
@@ -62,21 +63,33 @@ void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
             id_str += *i;
         } else
         {
-            if (id_str.size() != 0) // pushing Keyword
+            // TODO teach him to recognize identifiers with numbers
+            if (id_str.size() != 0) // pushing Keyword. 
             {
                 auto tok_id = Lexer::keywords.find(id_str);
                 if (tok_id != Lexer::keywords.end())
                     tok_list.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
                 else tok_list.push_back(Token::make<Token::Type::Identifier>(id_str));
                 id_str.clear();
-                continue;
             }
             
             if (isspace(*i))
             {
                 continue;
             }
+
             id_str += *i; 
+            if (isalnum(id_str[0])) // pushing Integer number
+            {
+                while(isalnum(*(i + 1))) {
+                    id_str += *(i + 1);
+                    i++;
+                }
+                tok_list.push_back(Token::make<Token::Type::IntegerLiteral>(id_str));
+                id_str.clear();
+                continue;
+            }
+            
             if (((*i == ':') || (*i == '<') || (*i == '>')) && (*(i + 1) == '=')) // pushing Operators
             {
                 id_str += *(i + 1);
@@ -88,7 +101,9 @@ void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
             id_str.clear();
         } 
     }
-    if (id_str.size() != 0) // adding a word at the end of a line
+    // adding a word or symbol at the end of a line 
+    // these words and symbols are 'begin', ';', '.', ')'
+    if (id_str.size() != 0)
     {
         auto tok_id = Lexer::keywords.find(id_str);
         auto tok_src = Lexer::operators.find(id_str);
