@@ -36,19 +36,20 @@ std::map<std::string_view, Token::Operator> Lexer::operators = {
     { ")", Token::Operator::RightBrace },
 };
 
-std::list<Token> Lexer::process(const StringVec& source)
+TokenList Lexer::process(const StringVec& source)
 {
     std::list<Token> tokens;
-
-    for (auto i = source.cbegin(); i != source.cend(); ++i)
+    for (const auto& str : source)
     {
-        strProcess(*i, tokens);
+        TokenList part = processString(str);
+        tokens.insert(tokens.end(), part.begin(), part.end());
     }
     return tokens;
 }
 
-void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
+TokenList Lexer::processString(const std::string& str)
 {
+    std::list<Token> tokens;
     std::string id_str;
     int i = 0;
     for (auto i = str.begin(); i != str.end(); ++i) 
@@ -68,8 +69,8 @@ void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
             {
                 auto tok_id = Lexer::keywords.find(id_str);
                 if (tok_id != Lexer::keywords.end())
-                    tok_list.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
-                else tok_list.push_back(Token::make<Token::Type::Identifier>(id_str));
+                    tokens.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
+                else tokens.push_back(Token::make<Token::Type::Identifier>(id_str));
                 id_str.clear();
             }
             
@@ -85,7 +86,7 @@ void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
                     id_str += *(i + 1);
                     i++;
                 }
-                tok_list.push_back(Token::make<Token::Type::IntegerLiteral>(id_str));
+                tokens.push_back(Token::make<Token::Type::IntegerLiteral>(id_str));
                 id_str.clear();
                 continue;
             }
@@ -97,7 +98,7 @@ void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
             }
             auto tok_id = Lexer::operators.find(id_str);
             if (tok_id != Lexer::operators.end())
-                    tok_list.push_back(Token::make<Token::Type::Operator>(tok_id->second));
+                    tokens.push_back(Token::make<Token::Type::Operator>(tok_id->second));
             id_str.clear();
         } 
     }
@@ -108,9 +109,9 @@ void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
         auto tok_id = Lexer::keywords.find(id_str);
         auto tok_src = Lexer::operators.find(id_str);
         if (tok_id != Lexer::keywords.end())
-            tok_list.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
+            tokens.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
         else if(tok_src != Lexer::operators.end())
-                tok_list.push_back(Token::make<Token::Type::Operator>(tok_src->second));
+                tokens.push_back(Token::make<Token::Type::Operator>(tok_src->second));
     }
-    
+    return tokens;
 }

@@ -7,6 +7,7 @@
 
 #include "stringvec.h"
 #include "token.h"
+#include "tokenlist.h"
 
 class Lexer
 {
@@ -17,12 +18,13 @@ class Lexer
     static std::map<std::string_view, Token::Keyword> keywords;
     static std::map<std::string_view, Token::Operator> operators;
 
+    static TokenList processString(const std::string& str);
+
 public:
     Lexer() = delete;
     Lexer(const Lexer&) = delete;
     Lexer(Lexer&&) = delete;
     ~Lexer() = delete;
 
-    static std::list<Token> process(const StringVec& source);
-    static void strProcess(const std::string& str, std::list<Token>& tok_list);
+    static TokenList process(const StringVec& source);
 };
