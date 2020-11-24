@@ -13,5 +13,6 @@ set(BACKEND_SOURCE_FILES
     backend/src/preprocessor.cpp
     backend/src/stringvec.cpp
     backend/src/token.cpp
+    backend/src/tokenlist.cpp
     PARENT_SCOPE
 )
