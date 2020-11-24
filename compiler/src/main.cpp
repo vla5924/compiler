@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
     std::cout << "Compiler launched.\n";
     StringVec str = {
-        "  begin := ",
+        "  begin := test 4324 ",
         "  var ",
         "  end" 
     };
@@ -26,6 +26,10 @@ int main(int argc, char* argv[])
         if (i->type == Token::Type::Operator)
         {
             std::cout << "OPERATOR" << std::endl;
+        }
+        if (i->type == Token::Type::Identifier)
+        {
+            std::cout << "IDENTIFIER" << std::endl;
         }
     }
 

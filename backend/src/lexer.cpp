@@ -67,7 +67,9 @@ void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
                 auto tok_id = Lexer::keywords.find(id_str);
                 if (tok_id != Lexer::keywords.end())
                     tok_list.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
+                else tok_list.push_back(Token::make<Token::Type::Identifier>(id_str));
                 id_str.clear();
+                continue;
             }
             
             if (isspace(*i))
@@ -90,7 +92,7 @@ void Lexer::strProcess(const std::string& str, std::list<Token>& tok_list)
     {
         auto tok_id = Lexer::keywords.find(id_str);
         auto tok_src = Lexer::operators.find(id_str);
-         if (tok_id != Lexer::keywords.end())
+        if (tok_id != Lexer::keywords.end())
             tok_list.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
         else if(tok_src != Lexer::operators.end())
                 tok_list.push_back(Token::make<Token::Type::Operator>(tok_src->second));
