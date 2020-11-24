@@ -24,6 +24,10 @@ std::ostream& operator<<(std::ostream& out, const TokenList& list)
         {
             out << "FLOAT" << std::endl;
         }
+        else if (token.type == Token::Type::StringLiteral)
+        {
+            out << "STRING" << std::endl;
+        }
     }
     return out;
 }
