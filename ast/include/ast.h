@@ -1,13 +1,16 @@
 #pragma once
 
+#include <memory>
+
 #include "astnode.h"
 
 class AST
 {
-    ASTNode* root_;
+    ASTNode::Ptr root_;
 
 public:
-    AST();
+    AST() = default;
+    ~AST() = default;
 
-    ASTNode* root() const;
+    ASTNode::Ptr root() const;
 };
