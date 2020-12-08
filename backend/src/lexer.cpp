@@ -71,9 +71,9 @@ TokenList Lexer::processString(const std::string& str)
                     tokens.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
                 else 
                 {
-                    while(((i) != str.end()) && isalnum(*(i))) // adding identifier with numbers
+                    while(((i) != str.end()) && isalnum(*i)) // adding identifier with numbers
                     {
-                        id_str += *(i);
+                        id_str += *i;
                         i++;
                     }
                     tokens.push_back(Token::make<Token::Type::Identifier>(id_str));

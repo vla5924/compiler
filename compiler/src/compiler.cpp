@@ -11,7 +11,7 @@ int Compiler::exec(int argc, char* argv[])
         "   i:=j + k;",
         "   i:=i + 123;",
         "   i:= 123.123;",
-        "   'weqweqwe'"
+        "   'weqweqwe'",
         "end." 
     };
     source = Preprocessor::process(source);
