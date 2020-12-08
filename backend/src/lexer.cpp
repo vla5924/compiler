@@ -70,7 +70,15 @@ TokenList Lexer::processString(const std::string& str)
                 auto tok_id = Lexer::keywords.find(id_str);
                 if (tok_id != Lexer::keywords.end())
                     tokens.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
-                else tokens.push_back(Token::make<Token::Type::Identifier>(id_str));
+                else 
+                {
+                    while(((i) != str.end()) && isalnum(*(i))) 
+                    {
+                        id_str += *(i);
+                        i++;
+                    }
+                    tokens.push_back(Token::make<Token::Type::Identifier>(id_str));
+                }
                 id_str.clear();
             }
             

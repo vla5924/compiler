@@ -6,7 +6,7 @@ int Compiler::exec(int argc, char* argv[])
     std::cout << std::endl;
     // source = readFile(pathtofile...);
     StringVec source = {
-        "var i, j, k: integer;",
+        "var i12, j, k: integer;",
         "begin",
         "   i:=j + k;",
         "   i:=i + 123;",
