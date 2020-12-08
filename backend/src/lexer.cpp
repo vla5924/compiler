@@ -49,7 +49,6 @@ TokenList Lexer::process(const StringVec& source)
 
 TokenList Lexer::processString(const std::string& str)
 {
-    // TODO teach him to recognize identifiers with numbers
     std::list<Token> tokens;
     std::string id_str;
     int i = 0;
@@ -72,7 +71,7 @@ TokenList Lexer::processString(const std::string& str)
                     tokens.push_back(Token::make<Token::Type::Keyword>(tok_id->second));
                 else 
                 {
-                    while(((i) != str.end()) && isalnum(*(i))) 
+                    while(((i) != str.end()) && isalnum(*(i))) // adding identifier with numbers
                     {
                         id_str += *(i);
                         i++;
