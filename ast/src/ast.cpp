@@ -6,7 +6,7 @@ AST::AST()
 
 }
 
-ASTNode* AST::root() const
+ASTNode::Ptr AST::root() const
 {
     return root_;
 }
