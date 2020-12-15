@@ -1,0 +1,41 @@
+name: Build
+
+on: [push, pull_request]
+
+env:
+  BUILD_TYPE: Debug
+
+jobs:
+  ubuntu-clang-build:
+    name: Ubuntu CLang
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup environment
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt-get install clang-10
+    - name: Build
+      shell: bash
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --config $BUILD_TYPE
+      env:
+        CC: clang-10
+        CXX: clang++-10
+  
+  windows-msvc-build:
+    name: Windows MSVC
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      shell: cmd
+      run: |
+        mkdir build
+        cd build
+        cmake -G "Visual Studio 16 2019" .. -A Win32
+        cmake --build .
