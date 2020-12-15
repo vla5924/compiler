@@ -6,29 +6,9 @@ env:
   BUILD_TYPE: Debug
 
 jobs:
-  ubuntu-gcc-build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup environment
-      shell: bash
-      run: |
-        sudo apt update
-        sudo apt-get install g++-9
-    - name: Build
-      shell: bash
-      run: |
-        mkdir build
-        cd build
-        cmake ..
-        cmake --build . --config $BUILD_TYPE
-      env:
-        CC: gcc-9
-        CXX: g++-9
-
   ubuntu-clang-build:
+    name: Ubuntu CLang
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup environment
@@ -48,6 +28,7 @@ jobs:
         CXX: clang++-10
   
   windows-msvc-build:
+    name: Windows MSVC
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
